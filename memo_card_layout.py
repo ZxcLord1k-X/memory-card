@@ -5,38 +5,51 @@ from PyQt5.QtWidgets import (
        QTableWidget, QListWidget, QListWidgetItem,
        QLineEdit, QFormLayout,
        QHBoxLayout, QVBoxLayout,
-       QGroupBox, QButtonGroup, QRadioButton, 
+       QGroupBox, QButtonGroup, QRadioButton,
        QPushButton, QLabel, QSpinBox)
-
-
-app = QApplication([])
-app.setStyleSheet("QWidget { font-size: 30px; }")
+# додаємо нові імпорти🔽🔽🔽🔽
+from memo_qss import * # підвантажуємо "таблиці стилів"
+from memo_app import app
 
 # віджети, які треба буде розмістити:
-btn_Menu = QPushButton("Меню")
-btn_Sleep = QPushButton("Відпочити")
-box_Minutes = QSpinBox()
+btn_Menu = QPushButton("Меню") # кнопка повернення до основного вікна
+btn_Sleep = QPushButton("Відпочити") # кнопка прибирає вікно та повертає його після закінчення таймера
+box_Minutes = QSpinBox() # введення кількості хвилин
 box_Minutes.setValue(30)
-btn_OK = QPushButton("Відповісти")
-lb_Question = QLabel("")
+btn_OK = QPushButton("Відповісти") # кнопка відповіді
+# встановлюємо стилі для кнопки 🔽🔽🔽🔽
+btn_OK.setStyleSheet(QSS_OK)
+lb_Question = QLabel("") # текст питання
+# встановлюємо стилі для питання 🔽🔽🔽🔽
+lb_Question.setStyleSheet(QSS_TextCardQuestion)
+
 # Панель з варіантами:
-RadioGroupBox = QGroupBox("Вaріанти відповідей")
-RadioGroup = QButtonGroup()
+RadioGroupBox = QGroupBox("Варіанти відповідей") # група на екрані для перемикачів із відповідями
+RadioGroup = QButtonGroup() # а це для груповання перемикачів, щоб керувати їхньою поведінкою
 
 rbtn_1 = QRadioButton("")
 rbtn_2 = QRadioButton("")
 rbtn_3 = QRadioButton("")
 rbtn_4 = QRadioButton("")
 
+
 RadioGroup.addButton(rbtn_1)
 RadioGroup.addButton(rbtn_2)
 RadioGroup.addButton(rbtn_3)
 RadioGroup.addButton(rbtn_4)
+
+
 # Панель із результатом:
-AnsGroupBox = QGroupBox("Результати тесту")
-lb_Result = QLabel("")
-lb_Correct = QLabel("")
+AnsGroupBox = QGroupBox("Результат тесту")
+lb_Result = QLabel("") # тут розміщується напис "правильно" або "неправильно"
+# встановлюємо стилі для підпису із результатом 🔽🔽🔽🔽
+lb_Result.setStyleSheet(QSS_TextResult)
+lb_Correct = QLabel("") # тут буде написано текст правильної відповіді
+# встановлюємо стилі для тексту із правильною відповіддю 🔽🔽🔽🔽
+lb_Correct.setStyleSheet(QSS_TextCardQuestion)
+
 # Тепер займаємося розміщенням:
+
 
 # Розміщуємо варіанти відповідей у два стовпці всередині групи:
 layout_ans1 = QHBoxLayout()
@@ -60,20 +73,17 @@ layout_res.addWidget(lb_Correct, alignment=Qt.AlignHCenter, stretch=2)
 AnsGroupBox.setLayout(layout_res)
 AnsGroupBox.hide()
 
-
 # розміщуємо всі віджети у вікні, вони розташовані в чотири рядки:
 layout_line1 = QHBoxLayout()
 layout_line2 = QHBoxLayout()
 layout_line3 = QHBoxLayout()
 layout_line4 = QHBoxLayout()
 
-
 layout_line1.addWidget(btn_Menu)
 layout_line1.addStretch(1) # розрив між кнопками робимо по можливості довшим
 layout_line1.addWidget(btn_Sleep)
 layout_line1.addWidget(box_Minutes)
 layout_line1.addWidget(QLabel("хвилин")) # нам не потрібна змінна для цього напису
-
 
 layout_line2.addWidget(lb_Question, alignment=(Qt.AlignHCenter | Qt.AlignVCenter))
 layout_line3.addWidget(RadioGroupBox)
@@ -83,7 +93,6 @@ layout_line3.addWidget(AnsGroupBox)
 layout_line4.addStretch(1)
 layout_line4.addWidget(btn_OK, stretch=2) # кнопка має бути великою
 layout_line4.addStretch(1)
-
 
 # Тепер створені 4 рядки розмістимо один під одним:
 layout_card = QVBoxLayout()
@@ -95,9 +104,7 @@ layout_card.addLayout(layout_line4, stretch=1)
 layout_card.addStretch(1)
 layout_card.setSpacing(5) # прогалини між вмістом
 
-
 # Результат роботи цього модуля: віджети розміщені всередині layout_card, який можна призначити вікну.
-
 
 def show_result():
    """ показати панель відповідей """
