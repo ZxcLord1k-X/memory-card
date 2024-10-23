@@ -1,34 +1,46 @@
-''' Головне вікно '''
+''' Головне вікно: зліва список питань, справа - поточне питання, яке можна редагувати '''
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import (
-        QApplication, QWidget, 
-        QTableWidget, QListWidget, QListWidgetItem,
+        QApplication, QWidget,
+        QTableWidget, QListView, QListWidgetItem,
         QLineEdit, QFormLayout,
-        QHBoxLayout, QVBoxLayout, 
-        QGroupBox, QButtonGroup, QRadioButton,  
+        QHBoxLayout, QVBoxLayout,
+        QGroupBox, QButtonGroup, QRadioButton,
         QPushButton, QLabel, QSpinBox)
-from memo_qss import * #підвантажуємо "таблиці стилів"
-from memo_app import app 
-
-from memo_edit_layout import layout_form  
+from memo_app import app
+from memo_edit_layout import layout_form
 from memo_card_layout import layout_card
 
-class CompoundWidget(QWidget):
-    def __init__(self, layout, parent=None, flags=Qt.WindowFlags()):
-        super().__init__(parent=parent, flags=flags)
-        self.setLayout(layout)
+list_questions = QListView()
+wdgt_edit = QWidget()
+wdgt_edit.setLayout(layout_form)
+btn_add = QPushButton('Нове питання')
+btn_delete = QPushButton('Видалити питання')
+btn_start = QPushButton('Почати тренування')
+
+main_col1 = QVBoxLayout()
+main_col1.addWidget(list_questions)
+# main_col1.addWidget(btn_add, stretch=2)
 
 
-wdgt_card = CompoundWidget(layout_card)
-wdgt_edit = CompoundWidget(layout_form)
-btn_card = QPushButton('Поставити запитання')
-btn_form = QPushButton('Редагувати питання')
+main_col2 = QVBoxLayout()
+main_col2.addWidget(wdgt_edit)
+# main_col2.addStretch(1)
+# main_col2.addWidget(btn_delete, stretch=2)
 
-main_line = QHBoxLayout()
-main_line.addWidget(btn_card)
-main_line.addWidget(btn_form)
+main_line1 = QHBoxLayout()
+main_line1.addLayout(main_col1)
+main_line1.addLayout(main_col2)
+
+main_line2 = QHBoxLayout()
+main_line2.addStretch(1)
+main_line2.addWidget(btn_add, stretch=2)
+main_line2.addStretch(1)
+main_line2.addWidget(btn_start, stretch=2)
+main_line2.addStretch(1)
+main_line2.addWidget(btn_delete, stretch=2)
+main_line2.addStretch(1)
 
 layout_main = QVBoxLayout()
-layout_main.addWidget(wdgt_card)
-layout_main.addWidget(wdgt_edit)
-layout_main.addLayout(main_line)
+layout_main.addLayout(main_line1)
+layout_main.addLayout(main_line2)
